@@ -6,6 +6,10 @@ import helmet from "helmet";
 export class Server {
     #onBeforeStartCallbacks
 
+    /**
+     * 
+     * @param {import("express").Express} httpServer 
+     */
     constructor(httpServer) {
         this.httpServer = httpServer;
         this.#onBeforeStartCallbacks = [];
@@ -18,7 +22,7 @@ export class Server {
         }
 
         return this.httpServer.listen(port, () => {
-            console.log('Server started on port 3000');
+            console.log(`Servidor escuchando en el puerto ${port}`);
         })
     }
 
