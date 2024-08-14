@@ -1,0 +1,139 @@
+// @ŧs-check
+import jwt from "jsonwebtoken";
+import { Op } from "sequelize";
+import { config } from "../config/config.service.js";
+import { ROLES } from "../consts/roles.js";
+import { Role } from "../models/role.model.js";
+import { User } from "../models/user.model.js";
+import { encryptionService } from "./encryption.service.js";
+
+class ConflictingUserError {}
+class InvalidSignInError {}
+class InvalidRoleError {}
+
+export class UsersService {
+  /**
+   * @type {typeof User}
+   */
+  #userModel;
+  /**
+   *
+   * @type {typeof Role}
+   */
+  #roleModel;
+
+  /**
+   * @type {typeof encryptionService}
+   */
+  #encryptionService;
+
+  constructor(userModel, roleModel, encryptionService) {
+    this.#userModel = userModel;
+    this.#roleModel = roleModel;
+    this.#encryptionService = encryptionService;
+  }
+
+  /**
+   * Crea un JWT para el usuario pasado como parámetro
+   * @param {User} user
+   */
+  async createTokenFor(user) {
+    return new Promise((resolve, reject) => {
+      jwt.sign({ user_id: user.user_id }, config.getSecret(), (err, data) => {
+        if (err) reject(err);
+        else resolve(data);
+      });
+    });
+  }
+
+  /**
+   * Encuentra y retorna todos los usuarios.
+   *
+   * @returns {Promise<User[]>}
+   */
+  async findAll() {
+    const users = await this.#userModel.findAll();
+    return users;
+  }
+
+  /**
+   * Regístra un usuario con un rol de comprador o vendedor
+   *
+   * @param {{
+   *    username: string,
+   *    password: string,
+   *    email: string,
+   *    role: string
+   * }} userData
+   */
+  async signUp(userData) {
+    if (userData.role !== ROLES.BUYER || userData !== ROLES.SELLER) {
+      throw new InvalidRoleError("Rol inválido");
+    }
+
+    const role = this.#roleModel.findOne({
+      where: { name: userData.role },
+    });
+
+    if (!role) {
+      console.warn(
+        `Error al encontrar rol ${role}. El rol es requerido. Sincroniza la base de datos`
+      );
+      throw new InvalidRoleError("Rol no encontrado");
+    }
+
+    const user = await this.#userModel.findOne({
+      where: {
+        [Op.or]: {
+          username: userData.username,
+          email: userData.email,
+        },
+      },
+    });
+
+    if (user) {
+      throw new ConflictingUserError("Usuario en conflicto");
+    }
+
+    const signedUp = await this.#userModel.create({
+      username: userData.username,
+      password: await this.#encryptionService.encrypt(userData.password),
+      email: userData.email,
+      role_id: role.role_id,
+    });
+    const { password, ...rest } = signedUp;
+
+    return { user: rest, token: await this.createTokenFor(user) };
+  }
+
+  /**
+   * Inicia sesión a un usuario existente
+   *
+   * @param {{
+   *    username: string,
+   *    password: string,
+   * }} userData
+   */
+  async signIn(userData) {
+    const found = await this.#userModel.find({
+      where: { username: userData.username },
+    });
+
+    if (!found) {
+      throw new InvalidSignInError("Usuario o contraseña no válida");
+    }
+
+    const passwordsMatches = await this.#encryptionService.compare(
+      userData.password,
+      found.password
+    );
+
+    if (!passwordsMatches) {
+      throw new InvalidSignInError("Usuario o contraseña no válida");
+    }
+
+    const { password, ...rest } = found;
+
+    return { user: rest, token: await this.createTokenFor(found) };
+  }
+}

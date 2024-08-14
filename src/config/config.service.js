@@ -29,9 +29,20 @@ class ConfigService {
         DIALECT: getEnvOrFail("DB_DIALECT"),
         SHOULD_FORCE: process.env.NODE_ENV !== "production" && process.argv[2] == "force"
       },
-      PORT: getEnvOrFail("PORT")
+      PORT: getEnvOrFail("PORT"),
+      SALT: getEnvOrFail("SALT"),
+      SECRET: getEnvOrFail("JWT_SECRET")
     };
     return service;
+  }
+
+
+  getSecret() {
+    return this.#config["SECRET"];
+  }
+
+  getSalt() {
+    return this.#config["SALT"];
   }
 
   getDatabaseOptions() {
