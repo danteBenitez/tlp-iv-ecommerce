@@ -26,18 +26,12 @@ class ConfigService {
         USER: getEnvOrFail("DB_USER"),
         PASSWORD: getEnvOrFail("DB_PASSWORD"),
         NAME: getEnvOrFail("DB_NAME"),
-        DIALECT: getEnvOrFail("DB_DIALECT")
+        DIALECT: getEnvOrFail("DB_DIALECT"),
+        SHOULD_FORCE: process.env.NODE_ENV !== "production" && process.argv[2] == "force"
       },
       PORT: getEnvOrFail("PORT")
     };
     return service;
-  }
-
-  validateConfig() {
-    const databaseConfig = this.getDatabaseOptions();
-    if (!("DATABASE" in databaseConfig)) {
-      throw new Error("");
-    }
   }
 
   getDatabaseOptions() {
