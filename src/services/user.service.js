@@ -55,7 +55,21 @@ export class UsersService {
     const users = await this.#userModel.findAll();
     return users;
   }
-/**
+
+  /**
+   * Borra un usuario con el ID pasado
+   * 
+   * @param {string} id
+   * @returns True en caso de que el ID exista. False en caso contrario
+   */
+  async delete(id) {
+    const found = await this.#userModel.findByPk(id);
+    if (!found) return false;
+    await found.destroy();
+    return true;
+  }
+
+  /**
    * Regístra un usuario con un rol de comprador o vendedor
    *
    * @param {{
