@@ -92,7 +92,7 @@ export class UsersService {
     });
 
     if (user) {
-      throw new ConflictingUserError("Usuario en conflicto");
+      throw new ConflictingUserError("Nombre de usuario o correo electrónico en uso");
     }
 
     const signedUp = await this.#userModel.create({
