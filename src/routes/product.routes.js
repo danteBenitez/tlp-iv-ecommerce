@@ -8,10 +8,13 @@ import {
   createProductSchema,
   updateProductSchema,
 } from "../validations/product.validation.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
 const controller = new ProductController(productService);
+
+router.get("/", (req, res) => controller.findAllToSell(req, res));
 
 router.get("/mine", [...roleMiddleware(ROLES.SELLER)], (req, res) =>
   controller.findBySeller(req, res)

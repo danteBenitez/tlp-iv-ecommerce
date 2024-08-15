@@ -8,6 +8,17 @@ export class ProductController {
     this.#productService = productService;
   }
 
+  /**
+   * @param {import("express").Request}
+   * @param {import("express").Response}
+   */
+  async findAllToSell(req, res) {
+    const products = await this.#productService.findAllToSell();
+
+    res.status(200).json({
+      products
+    });
+  }
 
   /**
    * @param {import("express").Request}
