@@ -178,6 +178,25 @@ export class UsersService {
 
     return { user: found, token: await this.createTokenFor(found) };
   }
+
+  /**
+   * Verifica si el usuario tiene el un rol con el nombre
+   * dado por el parámetro `role`
+   * 
+   * @param {User} user
+   * @param {string} roleName
+   */
+  async matchesRole(user, roleName) {
+    const role = await this.#roleModel.findOne({
+      where: { name: roleName }
+    });
+    if (!role) {
+      console.warning("Rol no encontrado pasado a `matchesRole`. Este es un error lógico.");
+      return false;
+    }
+
+    return user.role_id == role.role_id;
+  }
 }
 
 export const usersService = new UsersService(User, Role, encryptionService);
