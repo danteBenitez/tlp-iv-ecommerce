@@ -20,12 +20,12 @@ export class PurchaseService {
 
   /**
    * Encuentra todas las compras de un usuario comprador
-   * 
+   *
    * @param {number} buyer_id
    */
   async findAllForBuyer(buyer_id) {
     const purchases = await this.#purchaseModel.findAll({
-        where: { buyer_id }
+      where: { buyer_id },
     });
 
     return purchases;
@@ -56,7 +56,28 @@ export class PurchaseService {
 
     const purchasedProducts = await Promise.all(additions);
 
-    return purchasedProducts;
+    return {
+      purchase,
+      products: purchasedProducts,
+      total: this.calculateTotal(purchasedProducts),
+    };
+  }
+
+  /**
+   * Calcula el total de una compra.
+   *
+   * @param {PurchasedProduct[]} products
+   */
+  async calculateTotal(products, purchase) {
+    const subtotal = products.reduce(
+      (total, product) => total + product.unit_price * product.product_amount,
+      0
+    );
+    const withInterest =
+      subtotal + (purchase.interest_percentage * subtotal) / 100;
+    const total =
+      withInterest - (purchase.discount_percentage * subtotal) / 100;
+    return total;
   }
 
   /**
@@ -109,6 +130,10 @@ export class PurchaseService {
       product_id: product.product_id,
       purchase_id: purchase.purchase_id,
     });
+    // Guardamos el precio del producto en la instancia
+    // para usarlo al calcular el total. Esto nos ahorra
+    // una consulta a base de datos.
+    purchasedProduct.unit_price = product.price;
 
     return purchasedProduct;
   }
