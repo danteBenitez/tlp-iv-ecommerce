@@ -80,7 +80,7 @@ export class UsersService {
    * }} userData
    */
   async signUp(userData) {
-    if (userData.role !== ROLES.BUYER || userData !== ROLES.SELLER) {
+    if (userData.role !== ROLES.BUYER && userData.role !== ROLES.SELLER) {
       throw new InvalidRoleError("Rol inválido");
     }
 
@@ -116,7 +116,7 @@ export class UsersService {
     });
     const { password, ...rest } = signedUp;
 
-    return { user: rest, token: await this.createTokenFor(user) };
+    return { user: rest, token: await this.createTokenFor(signedUp) };
   }
 
   /**
