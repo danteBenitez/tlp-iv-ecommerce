@@ -24,4 +24,10 @@ router.patch(
   (req, res) => controller.updateProduct(req, res)
 );
 
+router.delete(
+  "/:product_id",
+  [...roleMiddleware(ROLES.SELLER)],
+  (req, res) => controller.deleteProduct(req, res)
+)
+
 export default router;

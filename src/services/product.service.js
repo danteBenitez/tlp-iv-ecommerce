@@ -127,7 +127,7 @@ export class ProductService {
    *
    * @param {number} product_id
    * @param {User} seller
-   * @returns {boolean} True si existe el producto, false en otro caso.
+   * @returns {Promise<boolean>} True si existe el producto, false en otro caso.
    */
   async delete(product_id, seller) {
     const product = await this.#productModel.findOne({

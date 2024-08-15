@@ -57,4 +57,31 @@ export class ProductController {
       })
     }
   }
+
+  /**
+   * @param {import("express").Request}
+   * @param {import("express").Response}
+   */
+  async deleteProduct(req, res) {
+    const user = req.user;
+    const product_id = req.params.product_id;
+    const numberId = parseInt(product_id);
+    if (!product_id || Number.isNaN(numberId)) {
+      return res.status(400).json({
+        message: "ID de producto no válido"
+      });
+    }
+
+    const deleted = await this.#productService.delete(numberId, user);
+
+    if (!deleted) {
+      return res.status(404).json({
+        message: "Producto no encontrado"
+      })
+    }
+
+    return res.status(200).json({ 
+      message: "Producto eliminado exitosamente"
+    });
+  }
 }
