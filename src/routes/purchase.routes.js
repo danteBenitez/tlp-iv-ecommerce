@@ -15,4 +15,10 @@ router.post(
   (req, res) => controller.buyProductsInBulk(req, res)
 );
 
+router.get(
+  "/",
+  [...roleMiddleware(ROLES.BUYER)],
+  (req, res) => controller.findAllPurchasesForBuyer(req, res)
+);
+
 export default router;

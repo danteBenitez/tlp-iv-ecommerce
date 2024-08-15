@@ -1,5 +1,8 @@
 import { ProductNotFoundError } from "../services/product.service.js";
-import { OutOfStockError, purchaseService } from "../services/purchase.service.js";
+import {
+  OutOfStockError,
+  purchaseService,
+} from "../services/purchase.service.js";
 
 export class PurchaseController {
   /** @type {typeof purchaseService} */
@@ -9,6 +12,16 @@ export class PurchaseController {
     this.#purchaseService = purchaseService;
   }
 
+  /**
+   * @param {import("express").Request} req
+   * @param {import("express").Response} res
+   */
+  async findAllPurchasesForBuyer(req, res) {
+    const user = req.user;
+    const found = await this.#purchaseService.findAllForBuyer(user.user_id);
+
+    return res.status(200).json({ purchases: found });
+  }
 
   /**
    * @param {import("express").Request} req
