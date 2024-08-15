@@ -49,7 +49,7 @@ export const updateProductSchema = [
     body("stock")
       .optional()
       .isInt({ gt: 0 })
-      .withMessage("`stock` debe ser un número positivo")
+      .withMessage("`stock` debe ser un número entero positivo")
       .toInt(),
   ], {
     message: "Campo desconocido introducido"
