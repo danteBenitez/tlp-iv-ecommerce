@@ -44,8 +44,10 @@ export class UserController {
     try {
       const { user, token } = await this.#usersService.signIn({ username, password });
 
+      const { password: _, ...withoutPassword } = user.toJSON();
+
       res.status(200).json({
-        user,
+        user: withoutPassword,
         token,
         message: "Iniciado sesión correctamente",
       });
@@ -76,12 +78,15 @@ export class UserController {
         role,
       });
 
+      const { password: _, ...withoutPassword } = user.toJSON();
+
       res.status(200).json({
-        user,
+        user: withoutPassword,
         token,
         message: "Registrado correctamente",
       });
     } catch (err) {
+      console.error("Error al registrar usuario: ", err);
       if (err instanceof InvalidRoleError) {
         return res.status(400).json({
           message: err.message,
@@ -92,7 +97,6 @@ export class UserController {
           message: err.message,
         });
       }
-      console.error("Error al registrar usuario: ", err);
       res.status(500).json({
         message: "Error interno del servidor",
       });
