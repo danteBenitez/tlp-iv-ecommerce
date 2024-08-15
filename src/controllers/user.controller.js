@@ -39,10 +39,10 @@ export class UserController {
    * @param {Request} req
    * @param {Response} res
    */
-  signIn(req, res) {
+  async signIn(req, res) {
     const { username, password } = req.body;
     try {
-      const { user, token } = this.#usersService.signIn({ username, password });
+      const { user, token } = await this.#usersService.signIn({ username, password });
 
       res.status(200).json({
         user,
@@ -66,10 +66,10 @@ export class UserController {
    * @param {Request} req
    * @param {Response} res
    */
-  signUp(req, res) {
+  async signUp(req, res) {
     const { username, password, email, role } = req.body;
     try {
-      const { user, token } = this.#usersService.signUp({
+      const { user, token } = await this.#usersService.signUp({
         username,
         password,
         email,
@@ -79,7 +79,7 @@ export class UserController {
       res.status(200).json({
         user,
         token,
-        message: "Iniciado sesión correctamente",
+        message: "Registrado correctamente",
       });
     } catch (err) {
       if (err instanceof InvalidRoleError) {
