@@ -128,7 +128,7 @@ export class UsersService {
    * }} userData
    */
   async signIn(userData) {
-    const found = await this.#userModel.find({
+    const found = await this.#userModel.findOne({
       where: { username: userData.username },
     });
 
