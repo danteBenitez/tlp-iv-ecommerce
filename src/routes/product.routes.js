@@ -8,7 +8,6 @@ import {
   createProductSchema,
   updateProductSchema,
 } from "../validations/product.validation.js";
-import { authMiddleware } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
