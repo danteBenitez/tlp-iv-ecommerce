@@ -8,6 +8,20 @@ export class ProductController {
     this.#productService = productService;
   }
 
+
+  /**
+   * @param {import("express").Request}
+   * @param {import("express").Response}
+   */
+  async findBySeller(req, res) {
+    const user = req.user;
+    const products = await this.#productService.findBySellerId(user.user_id);
+
+    res.status(200).json({
+      products
+    });
+  }
+
   /**
    * @param {import("express").Request}
    * @param {import("express").Response}
