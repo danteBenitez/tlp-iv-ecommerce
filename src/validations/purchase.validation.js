@@ -6,7 +6,7 @@ const formatter = new Intl.ListFormat("es", {
 });
 const acceptedPaymentMethodMessage = formatter.format(ACCEPTED_PAYMENT_METHODS);
 
-export const makePurchase = [
+export const makePurchaseSchema = [
   body("products.*.product_id")
     .notEmpty()
     .withMessage("`product_id` es requerido")
