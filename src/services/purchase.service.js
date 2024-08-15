@@ -2,6 +2,8 @@ import { Purchase } from "../models/purchase.model";
 import { PurchasedProduct } from "../models/purchased-product.model";
 import { ProductNotFoundError, ProductService } from "./product.service";
 
+export class OutOfStockError extends Error {}
+
 export class PurchaseService {
   /** @type {typeof Purchase} */
   #purchaseModel;
