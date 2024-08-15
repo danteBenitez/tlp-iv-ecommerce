@@ -7,9 +7,9 @@ import { Role } from "../models/role.model.js";
 import { User } from "../models/user.model.js";
 import { encryptionService } from "./encryption.service.js";
 
-class ConflictingUserError {}
-class InvalidSignInError {}
-class InvalidRoleError {}
+export class ConflictingUserError {}
+export class InvalidSignInError {}
+export class InvalidRoleError {}
 
 export class UsersService {
   /**
@@ -55,8 +55,7 @@ export class UsersService {
     const users = await this.#userModel.findAll();
     return users;
   }
-
-  /**
+/**
    * Regístra un usuario con un rol de comprador o vendedor
    *
    * @param {{
@@ -137,3 +136,5 @@ export class UsersService {
     return { user: rest, token: await this.createTokenFor(found) };
   }
 }
+
+export const usersService = new UsersService(User, Role, encryptionService);
