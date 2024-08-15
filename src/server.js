@@ -3,6 +3,8 @@ import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 
+import userRouter from "./routes/user.routes.js";
+
 export class Server {
     #onBeforeStartCallbacks
 
@@ -14,6 +16,7 @@ export class Server {
         this.httpServer = httpServer;
         this.#onBeforeStartCallbacks = [];
         this.addMiddleware();
+        this.routes();
     }
 
     async start(port = 3000) {
@@ -24,6 +27,10 @@ export class Server {
         return this.httpServer.listen(port, () => {
             console.log(`Servidor escuchando en el puerto ${port}`);
         })
+    }
+
+    routes() {
+        this.httpServer.use(userRouter);
     }
 
     addParsers() {
