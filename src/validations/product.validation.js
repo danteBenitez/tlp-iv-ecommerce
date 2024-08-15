@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, checkExact } from "express-validator";
 
 export const createProductSchema = [
   body("name")
@@ -31,26 +31,27 @@ export const createProductSchema = [
 ];
 
 export const updateProductSchema = [
-  body("name")
-    .optional()
-    .isString()
-    .withMessage("`name` debe ser un string"),
-  body("description")
-    .optional()
-    .isString()
-    .withMessage("`description` debe ser un string"),
-  body("price")
-    .optional()
-    .isFloat({ gt: 0 })
-    .withMessage("`price` debe ser un número positivo")
-    .toFloat(),
-  body("category")
-    .optional()
-    .isString()
-    .withMessage("`category` debe ser un string"),
-  body("stock")
-    .optional()
-    .isInt({ gt: 0 })
-    .withMessage("`stock` debe ser un número positivo")
-    .toInt(),
+  checkExact([
+    body("name").optional().isString().withMessage("`name` debe ser un string"),
+    body("description")
+      .optional()
+      .isString()
+      .withMessage("`description` debe ser un string"),
+    body("price")
+      .optional()
+      .isFloat({ gt: 0 })
+      .withMessage("`price` debe ser un número positivo")
+      .toFloat(),
+    body("category")
+      .optional()
+      .isString()
+      .withMessage("`category` debe ser un string"),
+    body("stock")
+      .optional()
+      .isInt({ gt: 0 })
+      .withMessage("`stock` debe ser un número positivo")
+      .toInt(),
+  ], {
+    message: "Campo desconocido introducido"
+  }),
 ];
