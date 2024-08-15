@@ -30,10 +30,6 @@ export const Purchase = sequelize.define(
       },
       allowNull: false,
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
   },
   {
     timestamps: true,
