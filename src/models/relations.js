@@ -6,22 +6,22 @@ import { User } from "./user.model.js";
 
 export function defineRelations() {
   // Una compra consta de muchos productos comprados
-  Purchase.hasMany(PurchasedProduct);
-  PurchasedProduct.belongsTo(Purchase);
+  Purchase.hasMany(PurchasedProduct, { foreignKey: "purchase_id" });
+  PurchasedProduct.belongsTo(Purchase, { foreignKey: "purchase_id" });
 
   // Un producto comprado referencia un producto
-  PurchasedProduct.belongsTo(Product);
+  PurchasedProduct.belongsTo(Product, { foreignKey: "product_id" });
   // Un mismo producto puede comprarse varias veces
-  Product.hasMany(PurchasedProduct);
+  Product.hasMany(PurchasedProduct, { foreignKey: "product_id" });
 
-  // Un usuario pertenece a un rol
-  Role.belongsTo(Role);
   // A un rol pertenecen varios usuarios
-  Role.hasMany(User);
+  Role.hasMany(User, { foreignKey: "role_id" });
+  // Un usuario pertenece a un rol
+  Role.belongsTo(Role, { foreignKey: "role_id" });
 
   // Un usuario (vendedor) tiene varios productos
-  User.hasMany(Product);
+  User.hasMany(Product, { foreignKey: "seller_id" });
   // Un producto pertenece a un usuario,
   // su vendedor
-  Product.belongsTo(User);
+  Product.belongsTo(User, { foreignKey: "seller_id" });
 }
