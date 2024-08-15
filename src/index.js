@@ -1,6 +1,5 @@
 import express from "express";
 import { config } from "./config/config.service.js";
-import { sequelize } from "./database/connection.js";
 import { Server } from "./server.js";
 import { setupDatabase } from "./database/setup.js";
 
