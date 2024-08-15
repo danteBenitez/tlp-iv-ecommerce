@@ -7,9 +7,9 @@ import { Role } from "../models/role.model.js";
 import { User } from "../models/user.model.js";
 import { encryptionService } from "./encryption.service.js";
 
-export class ConflictingUserError {}
-export class InvalidSignInError {}
-export class InvalidRoleError {}
+export class ConflictingUserError extends Error {}
+export class InvalidSignInError extends Error {}
+export class InvalidRoleError extends Error {}
 
 export class UsersService {
   /**
