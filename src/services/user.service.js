@@ -84,7 +84,7 @@ export class UsersService {
       throw new InvalidRoleError("Rol inválido");
     }
 
-    const role = this.#roleModel.findOne({
+    const role = await this.#roleModel.findOne({
       where: { name: userData.role },
     });
 
@@ -114,9 +114,9 @@ export class UsersService {
       email: userData.email,
       role_id: role.role_id,
     });
-    const { password, ...rest } = signedUp;
+    delete signedUp.password;
 
-    return { user: rest, token: await this.createTokenFor(signedUp) };
+    return { user: signedUp, token: await this.createTokenFor(signedUp) };
   }
 
   /**
@@ -145,9 +145,7 @@ export class UsersService {
       throw new InvalidSignInError("Usuario o contraseña no válida");
     }
 
-    const { password, ...rest } = found;
-
-    return { user: rest, token: await this.createTokenFor(found) };
+    return { user: found, token: await this.createTokenFor(found) };
   }
 }
 
