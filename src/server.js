@@ -4,6 +4,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 
 import userRouter from "./routes/user.routes.js";
+import productRouter from "./routes/product.routes.js";
 
 export class Server {
     #onBeforeStartCallbacks
@@ -31,6 +32,7 @@ export class Server {
 
     routes() {
         this.httpServer.use(userRouter);
+        this.httpServer.use("/products", productRouter);
     }
 
     addParsers() {
