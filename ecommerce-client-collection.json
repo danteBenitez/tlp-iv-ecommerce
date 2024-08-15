@@ -1,0 +1,239 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "ecommerce",
+    "collectionId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+    "dateExported": "2024-08-15T19:03:22.288Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "32efea2d-e7d2-4463-baa3-ccbeb9c63089",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/auth/sign-up",
+            "url": "{{server}}/auth/sign-up",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-08-15T14:19:14.022Z",
+            "modified": "2024-08-15T18:49:30.123Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"danteb1\",\n  \"password\": \"Password123\",\n  \"email\": \"benitezdante1234@gmail.com\",\n  \"role\": \"seller\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "2ca473ae-6f3e-4eae-9508-d5134cbc88e7",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/auth/sign-up buyer",
+            "url": "{{server}}/auth/sign-up",
+            "method": "POST",
+            "sortNum": 15000,
+            "created": "2024-08-15T18:04:19.964Z",
+            "modified": "2024-08-15T18:10:48.111Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"danteb-buyer\",\n  \"password\": \"Password123\",\n  \"email\": \"benitezdante123-buyer@gmail.com\",\n  \"role\": \"buyer\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "eeaad33f-1853-466a-8003-723cd5bbb718",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/auth/sign-in",
+            "url": "{{server}}/auth/sign-in",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-08-15T14:19:24.057Z",
+            "modified": "2024-08-15T15:17:41.489Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"danteb\",\n  \"password\": \"Password123\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "5f43bdb4-3dc7-4938-a219-32a4c0c78f08",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/auth/sign-in buyer",
+            "url": "{{server}}/auth/sign-in",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-08-15T18:31:02.173Z",
+            "modified": "2024-08-15T18:48:56.117Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"danteb-buyer\",\n  \"password\": \"Password123\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "6db06fbf-b7b5-4b50-8b02-8ccb60e34507",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/profile",
+            "url": "{{server}}/profile",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-08-15T16:54:47.020Z",
+            "modified": "2024-08-15T18:34:07.919Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE3MjM3NDU0NDh9.Y_IQzBLJvR6n8AqcAPYE5CoqDZL1KmF0TdQrjoTlhbc"
+            }
+        },
+        {
+            "_id": "45ea91dc-6089-4c68-ac59-50983abd2707",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/products",
+            "url": "{{server}}/products",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2024-08-15T17:28:02.874Z",
+            "modified": "2024-08-15T18:55:53.803Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Jabón en polvo\",\n  \"description\": \"Jabón en polvo marca Ayudín\",\n  \"price\": 10,\n  \"stock\": 1,\n  \"category\": \"Limpieza\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJpYXQiOjE3MjM3NDc3NzB9.M9BOWBqHOUp2JzPURSon0FautNcwzpCki032MnUNyHQ"
+            }
+        },
+        {
+            "_id": "633b066a-2d8b-4810-b168-45abecfa3354",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/products buyer",
+            "url": "{{server}}/products",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2024-08-15T18:13:24.034Z",
+            "modified": "2024-08-15T18:13:52.111Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Jabón en polvo\",\n  \"description\": \"Jabón en polvo marca Ayudín\",\n  \"price\": 10,\n  \"stock\": 1,\n  \"category\": \"Limpieza\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE3MjM3NDU0NDh9.Y_IQzBLJvR6n8AqcAPYE5CoqDZL1KmF0TdQrjoTlhbc"
+            }
+        },
+        {
+            "_id": "6942f2dd-b6f9-46f2-a1fc-29f50e807684",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/products",
+            "url": "{{server}}/products",
+            "method": "GET",
+            "sortNum": 75000,
+            "created": "2024-08-15T19:00:19.800Z",
+            "modified": "2024-08-15T19:00:37.795Z",
+            "headers": []
+        },
+        {
+            "_id": "97302052-71d3-49c1-8c85-9913114e5373",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/products/:product_id",
+            "url": "{{server}}/products/1",
+            "method": "PATCH",
+            "sortNum": 80000,
+            "created": "2024-08-15T18:02:07.347Z",
+            "modified": "2024-08-15T18:34:32.502Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"stock\": 2\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE3MjM3NDY2ODJ9.FK3hye9lLofJxpSxFI7j-1LSGSX-AWGZp5-mDJ_xYGA"
+            }
+        },
+        {
+            "_id": "02b450df-5781-4931-ad61-60deae49ba6e",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/products/:product_id (buyer)",
+            "url": "{{server}}/products/1",
+            "method": "PATCH",
+            "sortNum": 100000,
+            "created": "2024-08-15T18:09:55.938Z",
+            "modified": "2024-08-15T18:10:53.765Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE3MjM3NDU0NDh9.Y_IQzBLJvR6n8AqcAPYE5CoqDZL1KmF0TdQrjoTlhbc"
+            }
+        },
+        {
+            "_id": "0de83476-d0b7-4e34-8b6a-6541aed8c8ca",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/products/:product_id",
+            "url": "{{server}}/products/4",
+            "method": "DELETE",
+            "sortNum": 140000,
+            "created": "2024-08-15T18:46:30.314Z",
+            "modified": "2024-08-15T19:01:16.126Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJpYXQiOjE3MjM3NDc3NzB9.M9BOWBqHOUp2JzPURSon0FautNcwzpCki032MnUNyHQ"
+            }
+        },
+        {
+            "_id": "1cf4d718-bc71-4913-a719-e06f6699c5fe",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/products/mine",
+            "url": "{{server}}/products/mine",
+            "method": "GET",
+            "sortNum": 150000,
+            "created": "2024-08-15T18:54:33.506Z",
+            "modified": "2024-08-15T18:55:04.376Z",
+            "headers": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJpYXQiOjE3MjM3NDc3NzB9.M9BOWBqHOUp2JzPURSon0FautNcwzpCki032MnUNyHQ"
+            }
+        },
+        {
+            "_id": "06214aea-be3b-4db8-ba30-e396d7d90744",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/products/mine buyer",
+            "url": "{{server}}/products/mine",
+            "method": "GET",
+            "sortNum": 160000,
+            "created": "2024-08-15T18:56:11.358Z",
+            "modified": "2024-08-15T18:56:58.442Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE3MjM3NDc3MzZ9.OIaOkR0m9t7EeHsRnEXDHncLBsa6ia0vnZ0fsGDE-SY"
+            }
+        }
+    ],
+    "ref": "21kk6Zb18nbedoQkcYZhXhIL-862Ntv2_UuEnCDcHMxjHr0IoZT8jq0tlNup3I3I9aRiTea_QPh0zxWwDUO_zQ"
+}
