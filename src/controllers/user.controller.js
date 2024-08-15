@@ -1,10 +1,15 @@
-import { Request, Response } from "express";
+import express from "express";
+
+// Tratar de importar las clases normalmente da un error
+// por ser express un módulo CommonJS.
+const { Request, Response } = express;
+
 import {
   ConflictingUserError,
   InvalidRoleError,
   InvalidSignInError,
   usersService,
-} from "../services/user.service";
+} from "../services/user.service.js";
 
 export class UserController {
   /** @type {typeof usersService} */

@@ -1,6 +1,6 @@
 // @ts-check
 import bcrypt from "bcrypt";
-import { config } from "../config/config.service";
+import { config } from "../config/config.service.js";
 
 class EncryptionService {
     /**
