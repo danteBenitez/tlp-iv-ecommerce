@@ -1,0 +1,7 @@
+export const PAYMENT_METHODS = {
+    CASH: "cash",
+    CREDIT: "credit",
+    DEBIT: "debit"
+}
+
+export const ACCEPTED_PAYMENT_METHODS = [PAYMENT_METHODS.CASH, PAYMENT_METHODS.CREDIT, PAYMENT_METHODS.DEBIT];
