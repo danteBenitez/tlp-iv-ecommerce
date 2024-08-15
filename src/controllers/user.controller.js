@@ -102,4 +102,12 @@ export class UserController {
       });
     }
   }
+
+  /**
+   * @param {Request} req
+   * @param {Response} res
+   */
+  async getProfile(req, res) {
+    return res.json(req.user);
+  }
 }
