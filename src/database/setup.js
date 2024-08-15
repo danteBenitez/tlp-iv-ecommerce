@@ -6,11 +6,11 @@ import { seedDatabase } from "./seed/index.js";
 export async function setupDatabase() {
     defineRelations();
 
-    await seedDatabase()
-        .then(() => console.log("Insertados roles correctamente"));
     await sequelize.sync({
         force: config.getDatabaseOptions().SHOULD_FORCE
     })
+    await seedDatabase()
+        .then(() => console.log("Insertados roles correctamente"));
 
     return sequelize.authenticate();
 }
