@@ -1,5 +1,8 @@
 // @ŧs-check
 import jwt from "jsonwebtoken";
+
+const { JsonWebTokenError } = jwt;
+
 import { Op } from "sequelize";
 import { config } from "../config/config.service.js";
 import { ROLES } from "../consts/roles.js";
@@ -47,6 +50,32 @@ export class UsersService {
   }
 
   /**
+   * Encuentra un usuario dado un JWT
+   *
+   * @param {string} token
+   * @returns {Promise<User | null>} Retorna el usuario o
+   * null si no se puede verificar el token.
+   */
+  async findForToken(token) {
+    try {
+
+    const { user_id } = await new Promise((resolve, reject) =>
+      jwt.verify(token, config.getSecret(), (err, data) => {
+        if (err) reject(err);
+        else resolve(data);
+      })
+    );
+    const user = await this.#userModel.findOne({ where: { user_id } });
+    return user;
+    } catch(err) {
+      if (err instanceof JsonWebTokenError) {
+        console.error("Error al verificar JWT: ", err);
+      }
+      return null;
+    }
+  }
+
+  /**
    * Encuentra y retorna todos los usuarios.
    *
    * @returns {Promise<User[]>}
@@ -58,7 +87,7 @@ export class UsersService {
 
   /**
    * Borra un usuario con el ID pasado
-   * 
+   *
    * @param {string} id
    * @returns True en caso de que el ID exista. False en caso contrario
    */
@@ -105,7 +134,9 @@ export class UsersService {
     });
 
     if (user) {
-      throw new ConflictingUserError("Nombre de usuario o correo electrónico en uso");
+      throw new ConflictingUserError(
+        "Nombre de usuario o correo electrónico en uso"
+      );
     }
 
     const signedUp = await this.#userModel.create({
