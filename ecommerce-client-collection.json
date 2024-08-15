@@ -2,7 +2,7 @@
     "clientName": "Thunder Client",
     "collectionName": "ecommerce",
     "collectionId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
-    "dateExported": "2024-08-15T19:03:22.288Z",
+    "dateExported": "2024-08-15T19:30:50.903Z",
     "version": "1.2",
     "folders": [],
     "requests": [
@@ -99,7 +99,7 @@
             "method": "POST",
             "sortNum": 60000,
             "created": "2024-08-15T17:28:02.874Z",
-            "modified": "2024-08-15T18:55:53.803Z",
+            "modified": "2024-08-15T19:05:16.886Z",
             "headers": [],
             "body": {
                 "type": "json",
@@ -108,7 +108,7 @@
             },
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJpYXQiOjE3MjM3NDc3NzB9.M9BOWBqHOUp2JzPURSon0FautNcwzpCki032MnUNyHQ"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE3MjM3NDg3MDN9.ooHCrG0HRuKsFehCwHQXS_yyJNfNqrxYHCkmbCCO_oE"
             }
         },
         {
@@ -153,16 +153,16 @@
             "method": "PATCH",
             "sortNum": 80000,
             "created": "2024-08-15T18:02:07.347Z",
-            "modified": "2024-08-15T18:34:32.502Z",
+            "modified": "2024-08-15T19:08:37.167Z",
             "headers": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"stock\": 2\n}",
+                "raw": "{\n  \"stock\": 22\n}",
                 "form": []
             },
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE3MjM3NDY2ODJ9.FK3hye9lLofJxpSxFI7j-1LSGSX-AWGZp5-mDJ_xYGA"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpYXQiOjE3MjM3NDg3MDN9.ooHCrG0HRuKsFehCwHQXS_yyJNfNqrxYHCkmbCCO_oE"
             }
         },
         {
@@ -233,7 +233,24 @@
                 "type": "bearer",
                 "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJpYXQiOjE3MjM3NDc3MzZ9.OIaOkR0m9t7EeHsRnEXDHncLBsa6ia0vnZ0fsGDE-SY"
             }
+        },
+        {
+            "_id": "dde52dc1-6731-4de6-a762-987452b3a686",
+            "colId": "16cf9d4b-90d0-4959-b961-afc6c0046716",
+            "containerId": "",
+            "name": "/purchase",
+            "url": "{{server}}/purchase",
+            "method": "POST",
+            "sortNum": 180000,
+            "created": "2024-08-15T19:14:16.910Z",
+            "modified": "2024-08-15T19:25:33.062Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"products\": [{\n    \"product_id\": 1,\n    \"amount\": 10\n  }],\n  \"payment_method\": 20\n}",
+                "form": []
+            }
         }
     ],
-    "ref": "21kk6Zb18nbedoQkcYZhXhIL-862Ntv2_UuEnCDcHMxjHr0IoZT8jq0tlNup3I3I9aRiTea_QPh0zxWwDUO_zQ"
+    "ref": "21kk6Zb18nbedoQkcYZhXlPvNJaZQUWV7snkMuERZ7cllZU5swYpw8gTDXhSbGAbn1JwJIb5KHM9cq9gZnkl2g"
 }
