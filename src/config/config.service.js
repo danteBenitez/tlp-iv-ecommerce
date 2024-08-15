@@ -30,7 +30,7 @@ class ConfigService {
         SHOULD_FORCE: process.env.NODE_ENV !== "production" && process.argv[2] == "force"
       },
       PORT: getEnvOrFail("PORT"),
-      SALT: getEnvOrFail("SALT"),
+      SALT_ROUNDS: parseInt(getEnvOrFail("SALT_ROUNDS")),
       SECRET: getEnvOrFail("JWT_SECRET")
     };
     return service;
@@ -42,7 +42,7 @@ class ConfigService {
   }
 
   getSalt() {
-    return this.#config["SALT"];
+    return this.#config["SALT_ROUNDS"];
   }
 
   getDatabaseOptions() {
