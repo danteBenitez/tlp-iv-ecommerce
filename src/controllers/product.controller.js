@@ -13,11 +13,36 @@ export class ProductController {
    * @param {import("express").Response}
    */
   async findAllToSell(req, res) {
+    // Damos la opción de buscar por categoría.
+    if (req.query.category) {
+      return this.findByCategory(req, res);
+    }
     const products = await this.#productService.findAllToSell();
 
     res.status(200).json({
       products
     });
+  }
+
+  /**
+   * @param {import("express").Request}
+   * @param {import("express").Response}
+   */
+  async findByCategory(req, res) {
+    const category = req.query.category;
+    try {
+      const products = await this.#productService.findByCategory(category);
+
+      return res.status(200).json({
+        products
+      });
+    } catch(err) {
+      if (err instanceof ProductNotFoundError) {
+        return res.status(404).json({
+          message: err.message
+        });
+      }
+    }
   }
 
   /**

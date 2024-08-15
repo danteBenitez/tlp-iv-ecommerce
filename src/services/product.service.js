@@ -65,7 +65,12 @@ export class ProductService {
    */
   async findByCategory(category) {
     const found = await this.#productModel.findAll({
-      where: { category },
+      where: {
+        category,
+        stock: {
+          [Op.gt]: 0,
+        },
+      },
     });
 
     if (found.length === 0) {
