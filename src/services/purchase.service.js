@@ -1,8 +1,14 @@
-import { Purchase } from "../models/purchase.model";
-import { PurchasedProduct } from "../models/purchased-product.model";
-import { ProductNotFoundError, ProductService } from "./product.service";
+import { PAYMENT_METHODS } from "../consts/payment-methods.js";
+import { Purchase } from "../models/purchase.model.js";
+import { PurchasedProduct } from "../models/purchased-product.model.js";
+import {
+  ProductNotFoundError,
+  productService,
+  ProductService,
+} from "./product.service.js";
 
 export class OutOfStockError extends Error {}
+export class InvalidPaymentMethod extends Error {}
 
 export class PurchaseService {
   /** @type {typeof Purchase} */
@@ -18,6 +24,29 @@ export class PurchaseService {
     this.#purchaseModel = purchaseModel;
     this.#productService = productService;
     this.#purchasedProductModel = purchasedProductModel;
+  }
+
+  /**
+   * Retorna un arreglo de interés y descuento dado
+   * un método de pago.
+   *
+   * @param {string} payment_method
+   * @returns {Promise<{ interest: number, discount: number }>}
+   */
+  async #getInterestAndDiscountByPayment(payment_method) {
+    const percentagesByPaymentMethod = {
+      [PAYMENT_METHODS.CASH]: [0, 2],
+      [PAYMENT_METHODS.CREDIT]: [2, 0],
+      [PAYMENT_METHODS.DEBIT]: [5, 0],
+    };
+    const result = percentagesByPaymentMethod[payment_method];
+    if (!result) {
+      console.warn(
+        "Se pasó un método desconocido a getInterestAndDiscountByPayment. Este es un error de lógica."
+      );
+      throw InvalidPaymentMethod("Método de pago desconocido");
+    }
+    return { interest: result[0], discount: result[1] };
   }
 
   /**
@@ -46,7 +75,17 @@ export class PurchaseService {
    * @param {User} buyer
    */
   async buyInBulk(purchaseData, products, buyer) {
-    const purchase = await this.createEmptyPurchase(purchaseData, buyer);
+    const { interest, discount } = await this.#getInterestAndDiscountByPayment(
+      purchaseData.payment_method
+    );
+    const purchase = await this.createEmptyPurchase(
+      {
+        ...purchaseData,
+        interest_percentage: interest,
+        discount_percentage: discount,
+      },
+      buyer
+    );
 
     const additions = products.map((product) => {
       return this.addProductToPurchase(
@@ -61,7 +100,7 @@ export class PurchaseService {
     return {
       purchase,
       products: purchasedProducts,
-      total: this.calculateTotal(purchasedProducts),
+      total: await this.calculateTotal(purchasedProducts, purchase),
     };
   }
 
@@ -69,6 +108,7 @@ export class PurchaseService {
    * Calcula el total de una compra.
    *
    * @param {PurchasedProduct[]} products
+   * @param {Purchase} purchase
    */
   async calculateTotal(products, purchase) {
     const subtotal = products.reduce(
@@ -87,8 +127,6 @@ export class PurchaseService {
    *
    * @param {{
    *    payment_method: string,
-   *    discount_percentage?: string,
-   *    interest_percentage?: string,
    * }} purchaseData
    * @param {User} buyer
    */
@@ -140,3 +178,9 @@ export class PurchaseService {
     return purchasedProduct;
   }
 }
+
+export const purchaseService = new PurchaseService(
+  Purchase,
+  productService,
+  PurchasedProduct
+);
