@@ -37,7 +37,7 @@ export class PurchaseService {
     const percentagesByPaymentMethod = {
       [PAYMENT_METHODS.CASH]: [0, 2],
       [PAYMENT_METHODS.CREDIT]: [2, 0],
-      [PAYMENT_METHODS.DEBIT]: [5, 0],
+      [PAYMENT_METHODS.DEBIT]: [1, 0],
     };
     const result = percentagesByPaymentMethod[payment_method];
     if (!result) {
