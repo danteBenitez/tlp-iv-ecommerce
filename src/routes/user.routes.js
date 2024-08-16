@@ -18,8 +18,10 @@ const controller = new UserController(usersService);
 router.get("/users", [...roleMiddleware(ROLES.ADMIN)], (req, res) =>
   controller.findAllUsers(req, res)
 );
-router.patch("/users/:user_id", [...roleMiddleware(ROLES.ADMIN)], (req, res) =>
-  controller.updateUserById(req, res)
+router.patch(
+  "/users/:user_id",
+  [...roleMiddleware(ROLES.ADMIN), validationMiddlewareFor(updateUserSchema)],
+  (req, res) => controller.updateUserById(req, res)
 );
 router.delete("/users/:user_id", [...roleMiddleware(ROLES.ADMIN)], (req, res) =>
   controller.deleteUserById(req, res)

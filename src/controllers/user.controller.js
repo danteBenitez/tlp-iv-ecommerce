@@ -185,7 +185,7 @@ export class UserController {
     }
 
     try {
-      const updated = await this.#usersService.update(user.user_id, req.body);
+      const updated = await this.#usersService.update(user_id, req.body);
 
       const { password: _, ...withoutPassword } = updated.toJSON();
 
