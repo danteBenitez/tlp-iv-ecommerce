@@ -90,6 +90,16 @@ export class UsersService {
   }
 
   /**
+   * Encuentra y retorna un usuario por su ID
+   * 
+   * @param {number} user_id
+   */
+  async findById(user_id) {
+    const user = await this.#userModel.findByPk(user_id);
+    return user;
+  }
+
+  /**
    * Actualiza un usuario con datos parciales.
    *
    * @param {number} user_id

@@ -40,6 +40,24 @@ export class UserController {
   }
 
   /**
+   * @param {Request} req
+   * @param {Response} res
+   */
+  async findById(req, res) {
+    const numberId = this.#parseUserId(req, res);
+    const user = await this.#usersService.findById(numberId);
+    if (!user) {
+      return res.status(404).json({
+        message: "Usuario no encontrado"
+      });
+    }
+
+    const { password: _, ...rest } = user.toJSON();
+
+    res.status(200).json({ user: rest });
+  }
+
+  /**
    *
    * @param {Request} req
    * @param {Response} res
@@ -112,19 +130,25 @@ export class UserController {
   }
 
 
+  #parseUserId(req, res) {
+    const user_id = req.params.user_id;
+    const numberId = parseInt(user_id);
+    if (!user_id || Number.isNaN(numberId)) {
+      res.status(400).json({
+        message: "ID de usuario no válido"
+      });
+      return null;
+    }
+    return user_id;
+  }
+
   /**
    * @param {Request} req
    * @param {Response} res
    */
   async deleteUserById(req, res) {
-    const user_id = req.params.user_id;
-    const numberId = parseInt(user_id);
-    if (!user_id || Number.isNaN(numberId)) {
-      return res.status(400).json({
-        message: "ID de producto no válido"
-      });
-    }
-
+    const numberID = this.#parseUserId(req, res);
+    if (!numberID) return;
     const deleted = await this.#usersService.delete(numberId);
 
     if (!deleted) {
@@ -176,13 +200,8 @@ export class UserController {
    * @param {Response} res
    */
   async updateUserById(req, res) {
-    const user_id = req.params.user_id;
-    const numberId = parseInt(user_id);
-    if (!user_id || Number.isNaN(numberId)) {
-      return res.status(400).json({
-        message: "ID de usuario inválida",
-      });
-    }
+    const user_id = this.#parseUserId(req, res);
+    if (!numberId) return;
 
     try {
       const updated = await this.#usersService.update(user_id, req.body);

@@ -19,6 +19,9 @@ const controller = new UserController(usersService);
 router.get("/users", [...roleMiddleware(ROLES.ADMIN)], (req, res) =>
   controller.findAllUsers(req, res)
 );
+router.get("/users/:user_id", [...roleMiddleware(ROLES.ADMIN)], (req, res) => {
+  controller.findById(req, res)
+})
 router.patch(
   "/users/:user_id",
   [...roleMiddleware(ROLES.ADMIN), validationMiddlewareFor(updateUserByAdminSchema)],
