@@ -2,6 +2,7 @@ import {
   ProductNotFoundError,
   productService,
 } from "../services/product.service.js";
+import { safeParseInt } from "../utils/safe-parse-int.js";
 
 export class ProductController {
   /** @type {typeof productService} */
@@ -128,15 +129,14 @@ export class ProductController {
   }
 
   #parseProductId(req, res) {
-    const product_id = req.params.product_id;
-    const numberId = parseInt(product_id);
-    if (!product_id || Number.isNaN(numberId)) {
+    const product_id = safeParseInt(req.params.product_id);
+    if (!product_id) {
       res.status(400).json({
         message: "ID de producto no válido",
       });
       return null;
     }
-    return numberId;
+    return product_id;
   }
 
   /**
