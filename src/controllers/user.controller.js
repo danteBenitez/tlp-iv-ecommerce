@@ -24,7 +24,7 @@ export class UserController {
    * @param {Request} req
    * @param {Response} res
    */
-  findAllUsers(req, res) {
+  async findAllUsers(req, res) {
     const user = req.user;
     if (!user) {
       res.status(401).json({
@@ -32,7 +32,11 @@ export class UserController {
       });
     }
 
-    return this.#usersService.findAll();
+    const users = await this.#usersService.findAll();
+
+    return res.status(200).json({
+      users
+    });
   }
 
   /**
