@@ -11,6 +11,7 @@ import { User } from "../models/user.model.js";
 import { encryptionService } from "./encryption.service.js";
 
 export class ConflictingUserError extends Error {}
+export class UserNotFoundError extends Error {}
 export class InvalidSignInError extends Error {}
 export class InvalidRoleError extends Error {}
 
@@ -58,16 +59,15 @@ export class UsersService {
    */
   async findForToken(token) {
     try {
-
-    const { user_id } = await new Promise((resolve, reject) =>
-      jwt.verify(token, config.getSecret(), (err, data) => {
-        if (err) reject(err);
-        else resolve(data);
-      })
-    );
-    const user = await this.#userModel.findOne({ where: { user_id } });
-    return user;
-    } catch(err) {
+      const { user_id } = await new Promise((resolve, reject) =>
+        jwt.verify(token, config.getSecret(), (err, data) => {
+          if (err) reject(err);
+          else resolve(data);
+        })
+      );
+      const user = await this.#userModel.findOne({ where: { user_id } });
+      return user;
+    } catch (err) {
       if (err instanceof JsonWebTokenError) {
         console.error("Error al verificar JWT: ", err);
       }
@@ -83,6 +83,51 @@ export class UsersService {
   async findAll() {
     const users = await this.#userModel.findAll();
     return users;
+  }
+
+  /**
+   * Actualiza un usuario con datos parciales.
+   *
+   * @param {number} user_id
+   * @param {{
+   *    username?: string,
+   *    password?: string,
+   *    email?: string,
+   *    role?: string
+   * }} userData
+   */
+  async update(user_id, userData) {
+    const found = await this.#userModel.findByPk(user_id);
+    if (!found) {
+      throw UserNotFoundError("Usuario no encontrado.");
+    }
+
+    const otherUser = await this.#userModel.findOne({
+      where: {
+        user_id: { [Op.ne]: user_id },
+        username: userData.username ?? "",
+        email: userData.email ?? "",
+      },
+    });
+
+    let role_id = found.role_id;
+    if (userData.role) {
+      if (userData.role !== ROLES.BUYER && userData.role !== ROLES.SELLER) {
+        throw new InvalidRoleError("Rol inválido");
+      }
+      const role = await this.#roleModel.findOne({
+        where: { name: userData.role },
+      });
+      role_id = role.role_id;
+    }
+
+    if (otherUser) {
+      throw new ConflictingUserError("Nombre de usuario o email en uso");
+    }
+
+    await found.update({ ...userData, role_id });
+
+    return found;
   }
 
   /**
@@ -182,16 +227,18 @@ export class UsersService {
   /**
    * Verifica si el usuario tiene el un rol con el nombre
    * dado por el parámetro `role`
-   * 
+   *
    * @param {User} user
    * @param {string} roleName
    */
   async matchesRole(user, roleName) {
     const role = await this.#roleModel.findOne({
-      where: { name: roleName }
+      where: { name: roleName },
     });
     if (!role) {
-      console.warning("Rol no encontrado pasado a `matchesRole`. Este es un error lógico.");
+      console.warning(
+        "Rol no encontrado pasado a `matchesRole`. Este es un error lógico."
+      );
       return false;
     }
 
