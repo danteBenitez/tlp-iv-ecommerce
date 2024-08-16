@@ -81,7 +81,11 @@ export class UsersService {
    * @returns {Promise<User[]>}
    */
   async findAll() {
-    const users = await this.#userModel.findAll();
+    const users = await this.#userModel.findAll({
+      attributes: {
+        exclude: ["password"]
+      }
+    });
     return users;
   }
 
