@@ -1,4 +1,6 @@
+import { Transaction } from "sequelize";
 import { PAYMENT_METHODS } from "../consts/payment-methods.js";
+import { sequelize } from "../database/connection.js";
 import { Purchase } from "../models/purchase.model.js";
 import { PurchasedProduct } from "../models/purchased-product.model.js";
 import {
@@ -78,6 +80,7 @@ export class PurchaseService {
     const { interest, discount } = await this.#getInterestAndDiscountByPayment(
       purchaseData.payment_method
     );
+
     const purchase = await this.createEmptyPurchase(
       {
         ...purchaseData,
@@ -87,15 +90,20 @@ export class PurchaseService {
       buyer
     );
 
-    const additions = products.map((product) => {
-      return this.addProductToPurchase(
-        purchase,
-        product.product_id,
-        product.amount
-      );
-    });
+    // Crear una transacción para que, en caso de un error,
+    // podamos volver al estado anterior de la DB
+    const purchasedProducts = await sequelize.transaction(async (t) => {
+      const additions = products.map((product) => {
+        return this.#addProductToPurchase(
+          purchase,
+          product.product_id,
+          product.amount,
+          t
+        );
+      });
 
-    const purchasedProducts = await Promise.all(additions);
+      return await Promise.all(additions);
+    });
 
     return {
       purchase,
@@ -148,9 +156,10 @@ export class PurchaseService {
    * @param {Purchase} purchase
    * @param {number} product_id
    * @param {number} amount
+   * @param {Transaction} transaction
    * @returns {Promise<PurchasedProduct[]>}
    */
-  async addProductToPurchase(purchase, product_id, amount) {
+  async #addProductToPurchase(purchase, product_id, amount, transaction) {
     const product = await this.#productService.findById(product_id);
 
     if (!product) {
@@ -163,13 +172,16 @@ export class PurchaseService {
       );
     }
 
-    await product.update({ stock: product.stock - amount });
+    await product.update({ stock: product.stock - amount }, { transaction });
 
-    const purchasedProduct = await this.#purchasedProductModel.create({
-      product_amount: amount,
-      product_id: product.product_id,
-      purchase_id: purchase.purchase_id,
-    });
+    const purchasedProduct = await this.#purchasedProductModel.create(
+      {
+        product_amount: amount,
+        product_id: product.product_id,
+        purchase_id: purchase.purchase_id,
+      },
+      { transaction }
+    );
     // Guardamos el precio del producto en la instancia
     // para usarlo al calcular el total. Esto nos ahorra
     // una consulta a base de datos.
