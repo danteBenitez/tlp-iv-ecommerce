@@ -14,11 +14,12 @@ const router = Router();
 const controller = new ProductController(productService);
 
 router.get("/", (req, res) => controller.findAllToSell(req, res));
-router.get("/:product_id", (req, res) => controller.findById(req, res))
 
 router.get("/mine", [...roleMiddleware(ROLES.SELLER)], (req, res) =>
   controller.findBySeller(req, res)
 );
+
+router.get("/:product_id", (req, res) => controller.findById(req, res))
 
 router.post(
   "/",
