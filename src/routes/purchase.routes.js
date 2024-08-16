@@ -16,7 +16,7 @@ router.post(
 );
 
 router.get(
-  "/",
+  "/mine",
   [...roleMiddleware(ROLES.BUYER)],
   (req, res) => controller.findAllPurchasesForBuyer(req, res)
 );
