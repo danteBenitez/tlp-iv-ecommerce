@@ -11,6 +11,7 @@ import {
   UserNotFoundError,
   usersService,
 } from "../services/user.service.js";
+import { safeParseInt } from "../utils/safe-parse-int.js";
 
 export class UserController {
   /** @type {typeof usersService} */
@@ -131,11 +132,10 @@ export class UserController {
 
 
   #parseUserId(req, res) {
-    const user_id = req.params.user_id;
-    const numberId = parseInt(user_id);
-    if (!user_id || Number.isNaN(numberId)) {
+    const user_id = safeParseInt(req.params.user_id);
+    if (!user_id) {
       res.status(400).json({
-        message: "ID de usuario no válido"
+        message: "ID de usuario inválida"
       });
       return null;
     }
