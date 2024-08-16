@@ -24,6 +24,7 @@ export class ProductController {
     });
   }
 
+
   /**
    * @param {import("express").Request}
    * @param {import("express").Response}
@@ -81,13 +82,8 @@ export class ProductController {
    */
   async updateProduct(req, res) {
     const user = req.user;
-    const product_id = req.params.product_id;
-    const numberId = parseInt(product_id);
-    if (!product_id || Number.isNaN(numberId)) {
-      return res.status(400).json({
-        message: "ID de producto inválido"
-      });
-    }
+    const numberId = this.#parseProductId(req, res);
+
     try {
       const updated = await this.#productService.update(numberId, req.body, user);
 
@@ -108,12 +104,7 @@ export class ProductController {
     }
   }
 
-  /**
-   * @param {import("express").Request}
-   * @param {import("express").Response}
-   */
-  async deleteProduct(req, res) {
-    const user = req.user;
+  #parseProductId(req, res) {
     const product_id = req.params.product_id;
     const numberId = parseInt(product_id);
     if (!product_id || Number.isNaN(numberId)) {
@@ -121,6 +112,16 @@ export class ProductController {
         message: "ID de producto no válido"
       });
     }
+    return numberId;
+  }
+
+  /**
+   * @param {import("express").Request}
+   * @param {import("express").Response}
+   */
+  async deleteProduct(req, res) {
+    const user = req.user;
+    const numberId = this.#parseProductId(req, res);
 
     const deleted = await this.#productService.delete(numberId, user);
 
