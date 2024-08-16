@@ -1,5 +1,5 @@
 import { body, checkExact } from "express-validator";
-import { ALLOWED_ROLES } from "../consts/roles.js";
+import { ADMIN_ALLOWED_ROLES, ALLOWED_ROLES } from "../consts/roles.js";
 
 export const signInUserSchema = [
   body("username")
@@ -88,5 +88,42 @@ export const updateUserSchema = [
       .withMessage("`role` debe ser un string")
       .isIn(ALLOWED_ROLES)
       .withMessage(`\`role\` debe ser uno de ${allowedRolesMessage}`),
+  ]),
+];
+
+const adminRolesMessage = formatter.format(ADMIN_ALLOWED_ROLES);
+
+export const updateUserByAdminSchema = [
+  checkExact([
+    body("username")
+      .optional()
+      .isString()
+      .withMessage("`username` debe ser un string"),
+    body("password")
+      .optional()
+      .isString()
+      .withMessage("`password` debe ser un string")
+      .isStrongPassword({
+        minLength: 8,
+        minSymbols: 0,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+      })
+      .withMessage(
+        "La `password` no es segura. Debe contener mínimo 8 caracteres, una mayúscula, una minúscula y un número"
+      ),
+    body("email")
+      .optional()
+      .isString()
+      .withMessage("`email` debe ser un string")
+      .isEmail()
+      .withMessage("`email` inválido"),
+    body("role")
+      .optional()
+      .isString()
+      .withMessage("`role` debe ser un string")
+      .isIn(ALLOWED_ROLES)
+      .withMessage(`\`role\` debe ser uno de ${adminRolesMessage}`),
   ]),
 ];

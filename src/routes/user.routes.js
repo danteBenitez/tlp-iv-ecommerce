@@ -8,6 +8,7 @@ import { validationMiddlewareFor } from "../utils/validation-middleware.js";
 import {
   signInUserSchema,
   signUpUserSchema,
+  updateUserByAdminSchema,
   updateUserSchema,
 } from "../validations/user.validation.js";
 
@@ -20,7 +21,7 @@ router.get("/users", [...roleMiddleware(ROLES.ADMIN)], (req, res) =>
 );
 router.patch(
   "/users/:user_id",
-  [...roleMiddleware(ROLES.ADMIN), validationMiddlewareFor(updateUserSchema)],
+  [...roleMiddleware(ROLES.ADMIN), validationMiddlewareFor(updateUserByAdminSchema)],
   (req, res) => controller.updateUserById(req, res)
 );
 router.delete("/users/:user_id", [...roleMiddleware(ROLES.ADMIN)], (req, res) =>
