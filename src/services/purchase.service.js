@@ -179,6 +179,7 @@ export class PurchaseService {
         product_amount: amount,
         product_id: product.product_id,
         purchase_id: purchase.purchase_id,
+        product_price: product.price
       },
       { transaction }
     );

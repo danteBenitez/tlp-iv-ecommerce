@@ -15,6 +15,10 @@ export const PurchasedProduct = sequelize.define(
       type: DataTypes.INTEGER,
       default: 1,
     },
+    product_price: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
     product_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
