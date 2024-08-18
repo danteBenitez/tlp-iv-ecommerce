@@ -47,13 +47,15 @@ export const signUpUserSchema = [
     .withMessage("`email` debe ser un string")
     .isEmail()
     .withMessage("`email` inválido"),
-  body("role")
+  body("roles").notEmpty().isArray().withMessage("`roles` debe ser un arreglo"),
+  body("roles.length").notEmpty().withMessage("`roles` es requerido"),
+  body("roles.*")
     .notEmpty()
-    .withMessage("El `role` es requerido")
+    .withMessage("Los `roles` son requeridos")
     .isString()
     .withMessage("`role` debe ser un string")
     .isIn(ALLOWED_ROLES)
-    .withMessage(`\`role\` debe ser uno de ${allowedRolesMessage}`),
+    .withMessage(`\`roles\` debe contener sólo ${allowedRolesMessage}`),
 ];
 
 export const updateUserSchema = [
@@ -82,12 +84,18 @@ export const updateUserSchema = [
       .withMessage("`email` debe ser un string")
       .isEmail()
       .withMessage("`email` inválido"),
-    body("role")
-      .optional()
+    body("roles")
+      .notEmpty()
+      .isArray()
+      .withMessage("`roles` debe ser un arreglo"),
+    body("roles.length").notEmpty().withMessage("`roles` es requerido"),
+    body("roles.*")
+      .notEmpty()
+      .withMessage("Los `roles` son requeridos")
       .isString()
       .withMessage("`role` debe ser un string")
       .isIn(ALLOWED_ROLES)
-      .withMessage(`\`role\` debe ser uno de ${allowedRolesMessage}`),
+      .withMessage(`\`roles\` debe contener sólo ${allowedRolesMessage}`),
   ]),
 ];
 
@@ -119,11 +127,17 @@ export const updateUserByAdminSchema = [
       .withMessage("`email` debe ser un string")
       .isEmail()
       .withMessage("`email` inválido"),
-    body("role")
-      .optional()
+    body("roles")
+      .notEmpty()
+      .isArray()
+      .withMessage("`roles` debe ser un arreglo"),
+    body("roles.length").notEmpty().withMessage("`roles` es requerido"),
+    body("role.*")
+      .notEmpty()
+      .withMessage("Los `roles` son requeridos")
       .isString()
       .withMessage("`role` debe ser un string")
-      .isIn(ALLOWED_ROLES)
-      .withMessage(`\`role\` debe ser uno de ${adminRolesMessage}`),
+      .isIn(ADMIN_ALLOWED_ROLES)
+      .withMessage(`\`roles\` debe contener sólo ${adminRolesMessage}`),
   ]),
 ];
