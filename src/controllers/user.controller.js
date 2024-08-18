@@ -96,13 +96,13 @@ export class UserController {
    * @param {Response} res
    */
   async signUp(req, res) {
-    const { username, password, email, role } = req.body;
+    const { username, password, email, roles } = req.body;
     try {
       const { user, token } = await this.#usersService.signUp({
         username,
         password,
         email,
-        role,
+        roles,
       });
 
       const { password: _, ...withoutPassword } = user.toJSON();
@@ -147,8 +147,8 @@ export class UserController {
    * @param {Response} res
    */
   async deleteUserById(req, res) {
-    const numberID = this.#parseUserId(req, res);
-    if (!numberID) return;
+    const numberId = this.#parseUserId(req, res);
+    if (!numberId) return;
     const deleted = await this.#usersService.delete(numberId);
 
     if (!deleted) {
