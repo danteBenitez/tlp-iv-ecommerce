@@ -22,13 +22,6 @@ export const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    role_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Role,
-        key: Role.primaryKeyAttribute
-      },
-    },
   },
   {
     timestamps: true,
