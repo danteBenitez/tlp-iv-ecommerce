@@ -11,6 +11,7 @@ import {
 
 export class OutOfStockError extends Error {}
 export class InvalidPaymentMethod extends Error {}
+export class InvalidBuyerForProduct extends Error {}
 
 export class PurchaseService {
   /** @type {typeof Purchase} */
@@ -179,6 +180,10 @@ export class PurchaseService {
 
     if (!product) {
       throw new ProductNotFoundError("Producto no encontrado");
+    }
+
+    if (product.seller_id === purchase.buyer_id) {
+      throw new InvalidBuyerForProduct("No puedes comprarte productos a ti mismo");
     }
 
     if (amount > product.stock) {

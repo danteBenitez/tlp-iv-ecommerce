@@ -1,5 +1,6 @@
 import { ProductNotFoundError } from "../services/product.service.js";
 import {
+  InvalidBuyerForProduct,
   OutOfStockError,
   purchaseService,
 } from "../services/purchase.service.js";
@@ -50,7 +51,10 @@ export class PurchaseController {
           message: err.message,
         });
       }
-      if (err instanceof OutOfStockError) {
+      if (
+        err instanceof OutOfStockError ||
+        err instanceof InvalidBuyerForProduct
+      ) {
         return res.status(400).json({
           message: err.message,
         });
