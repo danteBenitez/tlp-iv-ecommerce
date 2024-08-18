@@ -201,7 +201,7 @@ export class UserController {
    */
   async updateUserById(req, res) {
     const user_id = this.#parseUserId(req, res);
-    if (!numberId) return;
+    if (!user_id) return;
 
     try {
       const updated = await this.#usersService.update(user_id, req.body);
