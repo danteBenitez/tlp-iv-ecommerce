@@ -6,8 +6,14 @@ import { User } from "./user.model.js";
 
 export function defineRelations() {
   // Una compra consta de muchos productos comprados
-  Purchase.hasMany(PurchasedProduct, { foreignKey: "purchase_id" });
-  PurchasedProduct.belongsTo(Purchase, { foreignKey: "purchase_id" });
+  Purchase.hasMany(PurchasedProduct, {
+    foreignKey: "purchase_id",
+    as: "purchased_products",
+  });
+  PurchasedProduct.belongsTo(Purchase, {
+    foreignKey: "purchase_id",
+    as: "purchased_products",
+  });
 
   // Un producto comprado referencia un producto
   PurchasedProduct.belongsTo(Product, { foreignKey: "product_id" });
