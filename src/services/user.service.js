@@ -148,10 +148,13 @@ export class UsersService {
       throw new ConflictingUserError("Nombre de usuario o email en uso");
     }
 
-    const { roles, data } = userData;
     await found.update({ ...userData });
+    // `updated` no contiene las asociaciones a #roleModel.
+    // Debemos hacer otra consulta a Base de datos para obtenerlas.
 
-    return found;
+    return await this.#userModel.findByPk(user_id, {
+      include: this.#roleModel,
+    });
   }
 
   /**
