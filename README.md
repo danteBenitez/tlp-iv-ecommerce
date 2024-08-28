@@ -20,6 +20,20 @@ Además, para los usuarios administradores, se cuenta con rutas de manejo de usu
 - _PATCH /users/:user_id_: Permite actualizar un usuario con datos parciales.
 - _DELETE /users/:user_id_: Permite borrar un usuario.
 
+## Estructura
+
+La estructura de carpetas del proyecto es la siguiente:
+
+- `src/`: Contiene el código fuente del servidor.
+  - `services/`: Contiene los servicios de la aplicación. La lógica de negocio se encuentra aquí. Los servicios interactúan con la fuente de datos mediante los modelos.
+  - `controllers/`: Contiene los controladores de las rutas.
+  - `middlewares/`: Contiene los middlewares de la aplicación.
+  - `models/`: Contiene los modelos de la base de datos.
+  - `routes/`: Contiene las rutas de la aplicación.
+  - `utils/`: Contiene utilidades de la aplicación.
+  - `app.js`: Archivo principal de la aplicación.
+  - `db.js`: Archivo de configuración de la base de datos.
+
 ## Instrucciones
 
 - Primero, clone el repositorio de modo local:
