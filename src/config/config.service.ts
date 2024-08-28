@@ -17,7 +17,7 @@ const getEnvOrFail = (key: string) => {
 type ApplicationConfig = {
   DATABASE: {
     HOST: string;
-    PORT: string;
+    PORT: number;
     USER: string;
     PASSWORD: string;
     NAME: string;
@@ -38,7 +38,7 @@ class ConfigService {
     const config = {
       DATABASE: {
         HOST: getEnvOrFail("DB_HOST"),
-        PORT: getEnvOrFail("DB_PORT"),
+        PORT: parseInt(getEnvOrFail("DB_PORT")),
         USER: getEnvOrFail("DB_USER"),
         PASSWORD: getEnvOrFail("DB_PASSWORD"),
         NAME: getEnvOrFail("DB_NAME"),

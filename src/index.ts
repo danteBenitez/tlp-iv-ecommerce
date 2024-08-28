@@ -13,7 +13,6 @@ server
   .onBeforeStart(async () => {
     return setupDatabase()
       .then(() => console.log("Conectado exitosamente a base de datos"))
-      .catch((err) => console.error("Error al iniciar el servidor: ", err));
   })
 
 server.start(PORT);
