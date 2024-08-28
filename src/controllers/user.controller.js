@@ -25,7 +25,7 @@ export class UserController {
    * @param {Request} req
    * @param {Response} res
    */
-  async findAllUsers(req, res) {
+  async findAllUsers(req: Request, res: Response) {
     const user = req.user;
     if (!user) {
       res.status(401).json({
@@ -36,7 +36,7 @@ export class UserController {
     const users = await this.#usersService.findAll();
 
     return res.status(200).json({
-      users
+      users,
     });
   }
 
@@ -49,7 +49,7 @@ export class UserController {
     const user = await this.#usersService.findById(numberId);
     if (!user) {
       return res.status(404).json({
-        message: "Usuario no encontrado"
+        message: "Usuario no encontrado",
       });
     }
 
@@ -130,12 +130,11 @@ export class UserController {
     }
   }
 
-
   #parseUserId(req, res) {
     const user_id = safeParseInt(req.params.user_id);
     if (!user_id) {
       res.status(400).json({
-        message: "ID de usuario inválida"
+        message: "ID de usuario inválida",
       });
       return null;
     }
@@ -153,12 +152,12 @@ export class UserController {
 
     if (!deleted) {
       return res.status(404).json({
-        message: "Usuario no encontrado"
-      })
+        message: "Usuario no encontrado",
+      });
     }
 
-    return res.status(200).json({ 
-      message: "Usuario eliminado exitosamente"
+    return res.status(200).json({
+      message: "Usuario eliminado exitosamente",
     });
   }
 

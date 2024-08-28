@@ -1,4 +1,5 @@
-import { validationResult } from "express-validator";
+import { RequestHandler } from "express";
+import { ValidationChain, validationResult } from "express-validator";
 
 /**
  * Retorna un middleware que aplica una serie de validaciones a una petición,
@@ -7,7 +8,7 @@ import { validationResult } from "express-validator";
  * @param {import("express-validator").ValidationChain[]} validations
  * @return {import("express").RequestHandler}
  */
-export function validationMiddlewareFor(validations) {
+export function validationMiddlewareFor(validations: ValidationChain[]): RequestHandler {
     return async (req, res, next) => {
         for (const validation of validations) {
             await validation.run(req);

@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import { ROLES } from "../consts/roles.js";
 import { PurchaseController } from "../controllers/purchase.controller.js";
 import { roleMiddleware } from "../middleware/role.middleware.js";
@@ -12,13 +12,13 @@ const controller = new PurchaseController(purchaseService);
 router.post(
   "/",
   [...roleMiddleware(ROLES.BUYER), validationMiddlewareFor(makePurchaseSchema)],
-  (req, res) => controller.buyProductsInBulk(req, res)
+  (req: Request, res: Response) => controller.buyProductsInBulk(req, res)
 );
 
 router.get(
   "/mine",
   [...roleMiddleware(ROLES.BUYER)],
-  (req, res) => controller.findAllPurchasesForBuyer(req, res)
+  (req: Request, res: Response) => controller.findAllPurchasesForBuyer(req, res)
 );
 
 export default router;

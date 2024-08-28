@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import { ROLES } from "../consts/roles.js";
 import { UserController } from "../controllers/user.controller.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
@@ -16,16 +16,16 @@ const router = Router();
 
 const controller = new UserController(usersService);
 
-router.get("/users", [...roleMiddleware(ROLES.ADMIN)], (req, res) =>
+router.get("/users", [...roleMiddleware(ROLES.ADMIN)], (req: Request, res: Response) =>
   controller.findAllUsers(req, res)
 );
-router.get("/users/:user_id", [...roleMiddleware(ROLES.ADMIN)], (req, res) => {
+router.get("/users/:user_id", [...roleMiddleware(ROLES.ADMIN)], (req: Request, res: Response) => {
   controller.findById(req, res)
 })
 router.patch(
   "/users/:user_id",
   [...roleMiddleware(ROLES.ADMIN), validationMiddlewareFor(updateUserByAdminSchema)],
-  (req, res) => controller.updateUserById(req, res)
+  (req: Request, res: Response) => controller.updateUserById(req, res)
 );
 router.delete("/users/:user_id", [...roleMiddleware(ROLES.ADMIN)], (req, res) =>
   controller.deleteUserById(req, res)
