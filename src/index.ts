@@ -1,7 +1,7 @@
 import express from "express";
 import { config } from "./config/config.service.js";
-import { Server } from "./server.js";
 import { setupDatabase } from "./database/setup.js";
+import { Server } from "./server.js";
 
 const app = express();
 

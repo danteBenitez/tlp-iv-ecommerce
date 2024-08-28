@@ -6,7 +6,7 @@
  * 
  * @param {string} key
  */
-const getEnvOrFail = (key) => {
+const getEnvOrFail = (key: string) => {
   const value = process.env[key];
   if (value == null) {
     throw new Error(`Variable de entorno ${key} faltante.`);
@@ -14,12 +14,28 @@ const getEnvOrFail = (key) => {
   return value;
 }
 
-class ConfigService {
-  #config = {};
+type ApplicationConfig = {
+  DATABASE: {
+    HOST: string;
+    PORT: string;
+    USER: string;
+    PASSWORD: string;
+    NAME: string;
+    DIALECT: string;
+    SHOULD_FORCE: boolean;
+  },
+  PORT: string,
+  SALT_ROUNDS: number,
+  SECRET: string
+}
 
-  static fromEnv() {
-    const service = new ConfigService();
-    service.#config = {
+class ConfigService {
+  private constructor(
+    private config: ApplicationConfig
+  ) { }
+
+  static fromEnv(): ConfigService {
+    const config = {
       DATABASE: {
         HOST: getEnvOrFail("DB_HOST"),
         PORT: getEnvOrFail("DB_PORT"),
@@ -33,24 +49,25 @@ class ConfigService {
       SALT_ROUNDS: parseInt(getEnvOrFail("SALT_ROUNDS")),
       SECRET: getEnvOrFail("JWT_SECRET")
     };
+    const service = new ConfigService(config);
     return service;
   }
 
 
   getSecret() {
-    return this.#config["SECRET"];
+    return this.config["SECRET"];
   }
 
   getSalt() {
-    return this.#config["SALT_ROUNDS"];
+    return this.config["SALT_ROUNDS"];
   }
 
   getDatabaseOptions() {
-    return this.#config["DATABASE"];
+    return this.config["DATABASE"];
   }
 
   getServerPort() {
-    return parseInt(this.#config["PORT"]);
+    return parseInt(this.config["PORT"]);
   }
 }
 
