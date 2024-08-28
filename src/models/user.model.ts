@@ -1,9 +1,17 @@
-import { DataTypes } from "sequelize";
+import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import { sequelize } from "../database/connection.js";
-import { Role } from "./role.model.js";
 
-export const User = sequelize.define(
-  "User",
+export class User extends Model<
+  InferAttributes<User>,
+  InferCreationAttributes<User>
+> {
+  declare user_id: CreationOptional<number>;
+  declare username: string;
+  declare password: string;
+  declare email: string;
+}
+
+User.init(
   {
     user_id: {
       type: DataTypes.INTEGER,
@@ -26,5 +34,6 @@ export const User = sequelize.define(
   {
     timestamps: true,
     paranoid: true,
+    sequelize
   }
 );

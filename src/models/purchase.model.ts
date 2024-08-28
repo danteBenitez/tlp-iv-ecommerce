@@ -1,9 +1,16 @@
-import { DataTypes } from "sequelize";
+import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import { sequelize } from "../database/connection.js";
 import { User } from "./user.model.js";
 
-export const Purchase = sequelize.define(
-  "Purchase",
+export class Purchase extends Model<InferAttributes<Purchase>, InferCreationAttributes<Purchase>> {
+  declare purchase_id: CreationOptional<number>;
+  declare payment_method: string;
+  declare discount_percentage: number;
+  declare interest_percentage: number;
+  declare buyer_id: number;
+}
+
+Purchase.init(
   {
     purchase_id: {
       type: DataTypes.INTEGER,
@@ -16,11 +23,11 @@ export const Purchase = sequelize.define(
     },
     discount_percentage: {
       type: DataTypes.FLOAT,
-      default: 0,
+      defaultValue: 0
     },
     interest_percentage: {
       type: DataTypes.FLOAT,
-      default: 0,
+      defaultValue: 0
     },
     buyer_id: {
       type: DataTypes.INTEGER,
@@ -34,5 +41,6 @@ export const Purchase = sequelize.define(
   {
     timestamps: true,
     paranoid: true,
+    sequelize
   }
-);
+)

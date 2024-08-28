@@ -72,7 +72,8 @@ export class UsersService {
         })
       );
       const user = await this.#userModel.findOne({ where: { user_id } });
-      return user;
+      const { password, ...userData } = user.toJSON();
+      return userData;
     } catch (err) {
       if (err instanceof JsonWebTokenError) {
         console.error("Error al verificar JWT: ", err);

@@ -1,9 +1,18 @@
-import { DataTypes } from "sequelize";
+import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import { sequelize } from "../database/connection.js";
 import { User } from "./user.model.js";
 
-export const Product = sequelize.define(
-  "Product",
+export class Product extends Model<InferAttributes<Product>, InferCreationAttributes<Product>> {
+  declare product_id: CreationOptional<number>;
+  declare name: string;
+  declare description: string;
+  declare price: number;
+  declare category: string;
+  declare stock: number;
+  declare seller_id: number;
+}
+
+Product.init(
   {
     product_id: {
       type: DataTypes.INTEGER,
@@ -42,5 +51,6 @@ export const Product = sequelize.define(
   {
     timestamps: true,
     paranoid: true,
+    sequelize: sequelize
   }
 );

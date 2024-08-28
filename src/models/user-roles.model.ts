@@ -1,9 +1,15 @@
-import { DataTypes } from "sequelize";
+import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import { sequelize } from "../database/connection.js";
 import { Role } from "./role.model.js";
 import { User } from "./user.model.js";
 
-export const UserRole = sequelize.define("UserRole", {
+export class UserRole extends Model<InferAttributes<UserRole>, InferCreationAttributes<UserRole>> {
+    declare user_role_id: CreationOptional<number>;
+    declare role_id: number;
+    declare user_id: number;
+}
+
+UserRole.init({
     user_role_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -26,4 +32,6 @@ export const UserRole = sequelize.define("UserRole", {
             key: "user_id"
         }
     }
+}, {
+    sequelize
 });

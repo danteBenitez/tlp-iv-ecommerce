@@ -1,8 +1,12 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import { sequelize } from "../database/connection.js";
 
-export const Role = sequelize.define(
-  "Role",
+export class Role extends Model<InferAttributes<Role>, InferCreationAttributes<Role>> {
+  declare role_id: number;
+  declare name: string;
+}
+
+Role.init(
   {
     role_id: {
       type: DataTypes.INTEGER,
@@ -17,5 +21,6 @@ export const Role = sequelize.define(
   {
     timestamps: true,
     paranoid: true,
+    sequelize
   }
-);
+)
